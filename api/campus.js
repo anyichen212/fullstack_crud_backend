@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
     };
 });
 
+//post a new campus
 router.post("/", async(req,res) => {
     //console.log(req.body);
 
@@ -46,10 +47,53 @@ router.post("/", async(req,res) => {
         Campus.create(newCampus)
             .then(response => res.json(response));
     } catch (error) {
-        console.log("campus post : ", error);
+        console.log("campus post error : ", error);
     }
 });
 
+//delete new campus by name
+router.delete("/:name", async(req,res) => {
+    const nameToDelete = req.params.name;
+    console.log("DELETE campus", nameToDelete);
+
+    //delete from campus
+    Campus.destroy({
+        where: { name: nameToDelete }
+    })
+    .then(response => {
+        if( response==1 ){
+            res.send({message: `${nameToDelete} was successfully deleted!`})
+        } else {
+            res.send({message: `name: ${nameToDelete} is not found`});
+        }
+    })
+    .catch (error => {
+        res.send(error);
+    });
+
+});
+
+//delete new campus by id
+router.delete("/:id", async(req,res) => {
+    const id = req.params.name;
+    console.log("DELETE campus(id)", nameToDelete);
+
+    //delete from campus
+    Campus.destroy({
+        where: { id:id }
+    })
+    .then(response => {
+        if( response==1 ){
+            res.send({message: `campus id ${id} was successfully deleted!`})
+        } else {
+            res.send({message: `campus id ${id} is not found`});
+        }
+    })
+    .catch (error => {
+        res.send(error);
+    });
+
+});
 
 
 module.exports = router;

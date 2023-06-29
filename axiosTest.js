@@ -4,7 +4,7 @@ const text = async() => {
 
     const bodyTest = {
         
-            "name": "Tom",
+            "name": "example",
             "description": "example",
             "address": "example",
             "city": "Brooklyn",

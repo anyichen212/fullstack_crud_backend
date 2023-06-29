@@ -4,7 +4,8 @@ const db = require("../db");
 const Campus = db.define("campus", {
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     description: {
         type: DataTypes.TEXT,
