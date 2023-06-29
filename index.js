@@ -1,5 +1,5 @@
 const express = require('express');
-//const db = require("./db")
+const db = require("./db")
 const PORT = "8080";
 
 const app = express();
@@ -8,7 +8,7 @@ const app = express();
 app.use("/api", require("./api"));
 
 //sync db folder
-//const syncDB = () => db.sync();
+const syncDB = () => db.sync({force: true});
 
 // run server
 const serverRun = () => {
@@ -17,4 +17,5 @@ const serverRun = () => {
     });
 };
 
+syncDB();
 serverRun();
