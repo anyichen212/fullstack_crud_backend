@@ -8,7 +8,8 @@ const app = express();
 app.use("/api", require("./api"));
 
 //sync db folder
-const syncDB = () => db.sync({force: true});
+const syncDB = () => db.sync();
+//const syncDB = () => db.sync({force: true});
 
 // run server
 const serverRun = () => {

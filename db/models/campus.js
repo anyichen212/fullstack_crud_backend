@@ -22,6 +22,14 @@ const Campus = db.define("campus", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    zip:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isNumeric: true,
+            len: [5,5],
+        }
+    },
     country: {
         type: DataTypes.STRING,
         allowNull: false
@@ -30,6 +38,9 @@ const Campus = db.define("campus", {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "https://www.brooklyn.edu/wp-content/uploads/NEWS-Default-1-Featured.jpg",
+        validate: {
+            isUrl: true,
+        }
     },
 
 });
