@@ -4,6 +4,8 @@ const PORT = "8080";
 
 const app = express();
 
+app.use(express.json());
+
 //mount on api folder
 app.use("/api", require("./api"));
 
