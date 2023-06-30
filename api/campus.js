@@ -21,6 +21,21 @@ router.get("/", async (req, res) => {
     };
 });
 
+//get single campus
+router.get("/:name", async (req, res) => {
+    const name = req.params.name;
+
+    try {
+        console.log("On Campus", name, "api");
+        const singleCampus = await Campus.findOne({where: { name: name}});
+        singleCampus
+            ? res.status(200).json(singleCampus)
+            : res.status(400).send(`Campus ${name} is Not Found. `);
+    } catch (error) {
+        console.log(error);
+    };
+});
+
 //post a new campus
 router.post("/", async(req,res) => {
     //console.log(req.body);
