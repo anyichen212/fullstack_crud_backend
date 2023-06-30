@@ -21,13 +21,20 @@ router.get("/", async (req, res) => {
     };
 });
 
-//get single campus by name
-router.get("/:name", async (req, res) => {
-    const name = req.params.name;
+//get single campus by name or id
+router.get("/:nameID", async (req, res) => {
+    const name = req.params.nameID;
+    let singleCampus;
 
     try {
-        console.log("On Campus", name, "api");
-        const singleCampus = await Campus.findOne({where: { name: name}});
+        if(+name){
+            console.log("On Campus id", name, "api");
+            singleCampus = await Campus.findOne({where: { id: name}});
+        } else {
+            console.log("On Campus name", name, "api");
+            singleCampus = await Campus.findOne({where: { name: name}});
+        }
+        
         singleCampus
             ? res.status(200).json(singleCampus)
             : res.status(400).send(`Campus ${name} is Not Found. `);
@@ -36,20 +43,6 @@ router.get("/:name", async (req, res) => {
     };
 });
 
-//get single campus by id
-router.get("/:id", async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        console.log("On Campus", id, "api");
-        const singleCampus = await Campus.findByPk(id);
-        singleCampus
-            ? res.status(200).json(singleCampus)
-            : res.status(400).send(`Campus id, ${id}, is Not Found. `);
-    } catch (error) {
-        console.log(error);
-    };
-});
 
 //post a new campus
 router.post("/", async(req,res) => {
@@ -81,32 +74,10 @@ router.post("/", async(req,res) => {
     }
 });
 
-//delete new campus by name
-router.delete("/:name", async(req,res) => {
-    const nameToDelete = req.params.name;
-    console.log("DELETE campus", nameToDelete);
-
-    //delete from campus
-    Campus.destroy({
-        where: { name: nameToDelete }
-    })
-    .then(response => {
-        if( response==1 ){
-            res.send({message: `${nameToDelete} was successfully deleted!`})
-        } else {
-            res.send({message: `name: ${nameToDelete} is not found`});
-        }
-    })
-    .catch (error => {
-        res.send(error);
-    });
-
-});
-
 //delete new campus by id
 router.delete("/:id", async(req,res) => {
-    const id = req.params.name;
-    console.log("DELETE campus(id)", nameToDelete);
+    const id = req.params.id;
+    console.log("DELETE campus(id)", id);
 
     //delete from campus
     Campus.destroy({
