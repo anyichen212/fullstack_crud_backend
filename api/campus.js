@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
     };
 });
 
-//get single campus
+//get single campus by name
 router.get("/:name", async (req, res) => {
     const name = req.params.name;
 
@@ -31,6 +31,21 @@ router.get("/:name", async (req, res) => {
         singleCampus
             ? res.status(200).json(singleCampus)
             : res.status(400).send(`Campus ${name} is Not Found. `);
+    } catch (error) {
+        console.log(error);
+    };
+});
+
+//get single campus by id
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        console.log("On Campus", id, "api");
+        const singleCampus = await Campus.findByPk(id);
+        singleCampus
+            ? res.status(200).json(singleCampus)
+            : res.status(400).send(`Campus id, ${id}, is Not Found. `);
     } catch (error) {
         console.log(error);
     };
@@ -59,7 +74,7 @@ router.post("/", async(req,res) => {
     try {
         console.log("POST new Campus");
 
-        Campus.create(newCampus)
+        await Campus.create(newCampus)
             .then(response => res.json(response));
     } catch (error) {
         console.log("campus post error : ", error);
