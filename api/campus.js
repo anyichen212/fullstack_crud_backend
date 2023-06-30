@@ -32,7 +32,7 @@ router.post("/", async(req,res) => {
 
     const newCampus = {
         name: req.body.name,
-        description: req.body.description,
+        description: req.body.description || "N/A",
         address: req.body.address,
         city: req.body.address,
         state: req.body.state,

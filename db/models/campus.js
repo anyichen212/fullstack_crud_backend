@@ -9,7 +9,7 @@ const Campus = db.define("campus", {
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false
+        defaultValue: "N/A"
     },
     address: {
         type: DataTypes.STRING,
