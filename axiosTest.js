@@ -4,13 +4,14 @@ const text = async() => {
 
     const bodyTest = {
         
-            "name": "example",
+            "name": "Image example",
             "description": "example",
             "address": "example",
             "city": "Brooklyn",
             "state": "NY",
             "zip": "12345",
-            "country": "US"
+            "country": "US",
+            "image" : null,
         
     };
 
