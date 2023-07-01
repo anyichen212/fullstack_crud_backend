@@ -43,6 +43,20 @@ router.get("/:nameID", async (req, res) => {
     };
 });
 
+//update a campus by id/name
+router.put("/:nameID", async (req, res) => {
+    const nameID = req.params.nameID;
+    console.log("PUT campus :", nameID);
+
+    try {
+        await Campus.update(req.body, {where: {id: nameID}})
+        .then(response => response ? res.json("Update Success") : res.json(`Update Fail, id ${nameID}`));
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
 
 //post a new campus
 router.post("/", async(req,res) => {
