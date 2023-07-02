@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 router.use("/campus", require("./campus"));
-//router.use("/student", require("./student"));
+router.use("/student", require("./student"));
 
 //404 handling
 router.use((req, res, next) => {
