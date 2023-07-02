@@ -24,7 +24,7 @@ router.get("/:id", async (req,res) => {
     const id = req.params.id;
 
     try {
-        console.log("On Student id : ", id, ", api");
+        console.log("On Student id :", id, ", api");
         const student = await Student.findByPk(id);
 
         student
@@ -34,6 +34,18 @@ router.get("/:id", async (req,res) => {
     } catch (error) {
         console.log(error);
     };
+});
+
+//POST a new student
+router.post("/", async(req,res) => {
+
+    try {
+        console.log("POST a new Student");
+        await Student.create(req.body)
+            .then(response => res.json(response));
+    } catch (error) {
+        console.log("POST a new student error :", error);
+    }
 });
 
 module.exports = router;
