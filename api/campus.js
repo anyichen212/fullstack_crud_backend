@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { Campus } = require("../db/models");
+const { Campus, Student } = require("../db/models");
 
 //8080/api/campus page
 
@@ -27,13 +27,26 @@ router.get("/:nameID", async (req, res) => {
     let singleCampus;
 
     try {
-        if(+name){
-            console.log("On Campus id", name, "api");
-            singleCampus = await Campus.findOne({where: { id: name}});
-        } else {
-            console.log("On Campus name", name, "api");
-            singleCampus = await Campus.findOne({where: { name: name}});
-        }
+        // if(+name){
+        //    console.log("On Campus id", name, "api");
+        //    singleCampus = await Campus.findOne({where: { id: name}}, {include: Student});
+        // } else {
+        //     console.log("On Campus name", name, "api");
+        //     singleCampus = await Campus.findOne({where: { name: name}}, {include: Student});
+        // }
+
+        singleCampus = await Campus.findOne({
+            where: {
+              id : name
+            },
+            include: {
+              model: Student,
+            }
+          })
+
+        //const students = await Student.findAll({where: {campusId : +name}});
+        //singleCampus.students = students;
+        //console.log(students);
         
         singleCampus
             ? res.status(200).json(singleCampus)

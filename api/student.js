@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { Student } = require("../db/models");
+const { Student, Campus } = require("../db/models");
 
 //localhost:8080/api/student
 
@@ -25,11 +25,11 @@ router.get("/:id", async (req,res) => {
 
     try {
         console.log("On Student id :", id, ", api");
-        const student = await Student.findByPk(id);
+        const student = await Student.findByPk(id, {include: Campus});
 
         student
             ? res.status(200).json(student)
-            : res.status(400).send(`Campus id, ${id}, is NOT found. `);
+            : res.status(400).send(`Student id, ${id}, is NOT found. `);
         
     } catch (error) {
         console.log(error);
@@ -51,6 +51,7 @@ router.post("/", async(req,res) => {
 //DELETE a new student by id
 router.delete("/:id", async(req, res) => {
     const id = req.params.id;
+    console.log(`DELETE student ${id}`);
 
     //delete from student
     Student.destroy({
@@ -67,6 +68,19 @@ router.delete("/:id", async(req, res) => {
         res.send(error);
     });
 
+});
+
+//Update a student info
+router.put("/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const updateStudent = await Student.update(req.body, {where: {id: id}});
+        res.json(updateStudent);
+        //.then(response => response ? res.json("Update Student Sucesss") : res.json(`Update Fail, id ${id}`));
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 module.exports = router;
