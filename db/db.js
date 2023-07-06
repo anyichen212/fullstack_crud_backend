@@ -2,7 +2,13 @@ const { Sequelize } = require("sequelize");
 
 require('dotenv').config();
 
-const db = new Sequelize(`postgres://${process.env.USER}:${process.env.PASS}@localhost:5432/ttpCrudData`, {
+const { Pool } = require("pg");
+
+//const Pool = new Pool({
+//  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+//})
+
+const db = new Sequelize(`${process.env.POSTGRES_URL}?sslmode=require`, {
     logging: false,
 });
 
