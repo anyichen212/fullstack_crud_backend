@@ -14,6 +14,10 @@ app.use(express.urlencoded({ extended: false }));
 //mount on api folder
 app.use("/api", require("./api"));
 
+app.get('/', (req, res) => {
+    res.send('Heyyyyyy \n Student : /api/students  \n Campuses: /api/campuses')
+  })
+
 //sync db folder
 const syncDB = () => db.sync();
 //const syncDB = () => db.sync({force: true});
