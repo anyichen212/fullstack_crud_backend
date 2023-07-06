@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", require("./api"));
 
 app.get('/', (req, res) => {
-    res.send('Heyyyyyy \n Student : /api/students  \n Campuses: /api/campuses')
+    res.send('Heyyyyyy \n\n Student : /api/student  \n Campuses: /api/campus')
   })
 
 //sync db folder
