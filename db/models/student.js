@@ -30,10 +30,10 @@ const Student = db.define("student", {
             max: 4.0,
         }
     },
-    campus: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    //campus: {
+    //    type: DataTypes.STRING,
+    //    allowNull: false,
+    //},
     image: {
         type: DataTypes.STRING,
         allowNull: false,

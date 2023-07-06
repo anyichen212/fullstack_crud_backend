@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { Campus } = require("../db/models");
+const { Campus, Student } = require("../db/models");
 
 //8080/api/campus page
 
@@ -27,13 +27,26 @@ router.get("/:nameID", async (req, res) => {
     let singleCampus;
 
     try {
-        if(+name){
-            console.log("On Campus id", name, "api");
-            singleCampus = await Campus.findOne({where: { id: name}});
-        } else {
-            console.log("On Campus name", name, "api");
-            singleCampus = await Campus.findOne({where: { name: name}});
-        }
+        // if(+name){
+        //    console.log("On Campus id", name, "api");
+        //    singleCampus = await Campus.findOne({where: { id: name}}, {include: Student});
+        // } else {
+        //     console.log("On Campus name", name, "api");
+        //     singleCampus = await Campus.findOne({where: { name: name}}, {include: Student});
+        // }
+
+        singleCampus = await Campus.findOne({
+            where: {
+              id : name
+            },
+            include: {
+              model: Student,
+            }
+          })
+
+        //const students = await Student.findAll({where: {campusId : +name}});
+        //singleCampus.students = students;
+        //console.log(students);
         
         singleCampus
             ? res.status(200).json(singleCampus)
@@ -44,22 +57,34 @@ router.get("/:nameID", async (req, res) => {
 });
 
 //update a campus by id/name
-router.put("/:nameID", async (req, res) => {
+router.put("/:nameID", async (req, res, next) => {
     const nameID = req.params.nameID;
     console.log("PUT campus :", nameID);
 
+    const editCampus = {
+        name: req.body.name,
+        description: req.body.description || "N/A",
+        address: req.body.address,
+        city: req.body.address,
+        state: req.body.state,
+        zip: req.body.zip,
+        country: req.body.country,
+        image: req.body.image || "https://www.brooklyn.edu/wp-content/uploads/NEWS-Default-1-Featured.jpg"
+    };
+
     try {
-        await Campus.update(req.body, {where: {id: nameID}})
+        await Campus.update(editCampus, {where: {id: nameID}})
         .then(response => response ? res.json("Update Success") : res.json(`Update Fail, id ${nameID}`));
     } catch (error) {
         console.log(error);
+        next(error);
     }
 
 });
 
 
 //post a new campus
-router.post("/", async(req,res) => {
+router.post("/", async(req,res, next) => {
     //console.log(req.body);
 
     if(!req.body.name || !req.body.address || !req.body.city || !req.body.state || !req.body.zip || !req.body.country)
@@ -85,6 +110,7 @@ router.post("/", async(req,res) => {
             .then(response => res.json(response));
     } catch (error) {
         console.log("campus post error : ", error);
+        next(error);
     }
 });
 
