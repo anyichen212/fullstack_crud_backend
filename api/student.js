@@ -37,7 +37,7 @@ router.get("/:id", async (req,res) => {
 });
 
 //POST a new student
-router.post("/", async(req,res) => {
+router.post("/", async(req,res, next) => {
 
     try {
         console.log("POST a new Student");
@@ -45,6 +45,7 @@ router.post("/", async(req,res) => {
             .then(response => res.json(response));
     } catch (error) {
         console.log("POST a new student error :", error);
+        next(error);
     }
 });
 
@@ -71,7 +72,7 @@ router.delete("/:id", async(req, res) => {
 });
 
 //Update a student info
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
     const id = req.params.id;
 
     try {
@@ -80,6 +81,7 @@ router.put("/:id", async (req, res) => {
         //.then(response => response ? res.json("Update Student Sucesss") : res.json(`Update Fail, id ${id}`));
     } catch (error) {
         console.log(error);
+        next(error);
     }
 });
 

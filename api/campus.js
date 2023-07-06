@@ -57,22 +57,34 @@ router.get("/:nameID", async (req, res) => {
 });
 
 //update a campus by id/name
-router.put("/:nameID", async (req, res) => {
+router.put("/:nameID", async (req, res, next) => {
     const nameID = req.params.nameID;
     console.log("PUT campus :", nameID);
 
+    const editCampus = {
+        name: req.body.name,
+        description: req.body.description || "N/A",
+        address: req.body.address,
+        city: req.body.address,
+        state: req.body.state,
+        zip: req.body.zip,
+        country: req.body.country,
+        image: req.body.image || "https://www.brooklyn.edu/wp-content/uploads/NEWS-Default-1-Featured.jpg"
+    };
+
     try {
-        await Campus.update(req.body, {where: {id: nameID}})
+        await Campus.update(editCampus, {where: {id: nameID}})
         .then(response => response ? res.json("Update Success") : res.json(`Update Fail, id ${nameID}`));
     } catch (error) {
         console.log(error);
+        next(error);
     }
 
 });
 
 
 //post a new campus
-router.post("/", async(req,res) => {
+router.post("/", async(req,res, next) => {
     //console.log(req.body);
 
     if(!req.body.name || !req.body.address || !req.body.city || !req.body.state || !req.body.zip || !req.body.country)
@@ -98,6 +110,7 @@ router.post("/", async(req,res) => {
             .then(response => res.json(response));
     } catch (error) {
         console.log("campus post error : ", error);
+        next(error);
     }
 });
 
